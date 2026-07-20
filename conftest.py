@@ -35,5 +35,7 @@ def authorized_user(driver):
     main_page.click_personal_account()
     login_page.login(user_data['email'], user_data['password'])
     main_page.wait_for_invisibility(MainPageLocators.LOGIN_BUTTON_MAIN)
+    main_page.wait_for_visibility(MainPageLocators.CONSTRUCTOR_BUTTON)
+    # Небольшая задержка для синхронизации состояния сессии после логина
     time.sleep(0.5)
     return user_data

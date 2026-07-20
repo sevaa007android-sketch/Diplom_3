@@ -22,4 +22,4 @@ class OrderModal(BasePage):
         self.execute_script("arguments[0].click();", close_btn)
         self.wait_for_invisibility(self.locators.OVERLAY)
         self.wait_for_clickable(MainPageLocators.ORDER_FEED_BUTTON)
-        time.sleep(0.5)
+        #time.sleep(0.5)

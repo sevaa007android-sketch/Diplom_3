@@ -27,7 +27,7 @@ class TestOrderFeed:
         order_modal = OrderModal(driver)
         order_number = order_modal.get_order_number()
         order_modal.close_modal()
-        time.sleep(0.5)
+
         main_page.click_order_feed()
         feed_page.wait.until(lambda d: feed_page.get_counter_all_time() > initial_all_time)
         new_all_time = feed_page.get_counter_all_time()
@@ -46,7 +46,7 @@ class TestOrderFeed:
         order_modal = OrderModal(driver)
         order_number = order_modal.get_order_number()
         order_modal.close_modal()
-        time.sleep(0.5)
+
         main_page.click_order_feed()
         feed_page.wait.until(lambda d: feed_page.get_counter_today() > initial_today)
         new_today = feed_page.get_counter_today()
@@ -61,7 +61,6 @@ class TestOrderFeed:
         order_modal = OrderModal(driver)
         order_number = order_modal.get_order_number()
         order_modal.close_modal()
-        time.sleep(0.5)
         main_page.click_order_feed()
         feed_page = OrderFeedPage(driver)
         print(f"Ищем номер: {order_number}")
