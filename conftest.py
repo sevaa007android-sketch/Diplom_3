@@ -1,13 +1,13 @@
 import pytest
-import time
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from data import BASE_URL
 from pages.main_page import MainPage
 from pages.login_page import LoginPage
-from pages.registration_page import RegistrationPage
 from helpers import generate_user_data
+from api.user_api import register_user, delete_user
 from locators.main_page_locators import MainPageLocators
+import time
 
 @pytest.fixture(params=["chrome", "firefox"])
 def driver(request):
@@ -25,17 +25,27 @@ def driver(request):
 
 @pytest.fixture
 def authorized_user(driver):
+    # 1. Генерируем данные пользователя
     user_data = generate_user_data()
+    
+    # 2. Регистрируем пользователя через API
+    register_response = register_user(user_data)
+    assert register_response.status_code == 200, "Не удалось зарегистрировать пользователя через API"
+    token = register_response.json()["accessToken"]
+    
+    # 3. Логинимся через UI (чтобы браузер получил сессионные куки)
     main_page = MainPage(driver)
     main_page.click_personal_account()
     login_page = LoginPage(driver)
-    login_page.click_register_link()
-    reg_page = RegistrationPage(driver)
-    reg_page.register(user_data['name'], user_data['email'], user_data['password'])
-    main_page.click_personal_account()
     login_page.login(user_data['email'], user_data['password'])
+    
+    # 4. Ожидаем загрузку главной страницы
     main_page.wait_for_invisibility(MainPageLocators.LOGIN_BUTTON_MAIN)
     main_page.wait_for_visibility(MainPageLocators.CONSTRUCTOR_BUTTON)
-    # Небольшая задержка для синхронизации состояния сессии после логина
+    # Небольшая задержка для синхронизации состояния сессии
     time.sleep(0.5)
-    return user_data
+    
+    yield user_data  # возвращаем только данные пользователя (токен не нужен в тестах)
+    
+    # 5. Удаляем пользователя через API
+    delete_user(token)

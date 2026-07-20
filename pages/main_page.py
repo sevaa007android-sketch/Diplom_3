@@ -14,10 +14,7 @@ class MainPage(BasePage):
 
     @allure.step("Клик по кнопке «Лента заказов»")
     def click_order_feed(self):
-        try:
-            self.wait_for_invisibility(OrderModalLocators.OVERLAY)
-        except:
-            pass
+        self.wait_for_invisibility(OrderModalLocators.OVERLAY)
         element = self.find(self.locators.ORDER_FEED_BUTTON)
         self.execute_script("arguments[0].scrollIntoView(true);", element)
         self.execute_script("arguments[0].click();", element)
@@ -30,10 +27,6 @@ class MainPage(BasePage):
     @allure.step("Получить значение счётчика первого ингредиента")
     def get_first_ingredient_counter(self):
         return self.get_text(self.locators.FIRST_INGREDIENT_COUNTER)
-
-    @allure.step("Клик по кнопке «Войти в аккаунт»")
-    def click_login_button_main(self):
-        self.click(self.locators.LOGIN_BUTTON_MAIN)
 
     @allure.step("Клик по кнопке «Личный кабинет»")
     def click_personal_account(self):
@@ -53,7 +46,3 @@ class MainPage(BasePage):
     @allure.step("Клик по кнопке «Оформить заказ»")
     def click_checkout(self):
         self.click(self.locators.CHECKOUT_BUTTON)
-
-    @allure.step("Клик по логотипу")
-    def click_logo(self):
-        self.click(self.locators.LOGO)

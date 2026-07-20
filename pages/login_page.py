@@ -25,10 +25,3 @@ class LoginPage(BasePage):
         self.set_password(password)
         self.click_login_button()
 
-    @allure.step("Клик по ссылке «Зарегистрироваться»")
-    def click_register_link(self):
-        self.click(self.locators.REGISTER_LINK)
-
-    @allure.step("Клик по ссылке «Восстановить пароль»")
-    def click_forgot_password_link(self):
-        self.click(self.locators.FORGOT_PASSWORD_LINK)
