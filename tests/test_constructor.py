@@ -2,6 +2,7 @@ import allure
 import pytest
 from pages.main_page import MainPage
 from pages.ingredient_modal import IngredientModal
+from data import BASE_URL
 
 @allure.feature("Конструктор")
 class TestConstructor:
@@ -10,7 +11,7 @@ class TestConstructor:
     def test_constructor_tab_click(self, driver):
         main_page = MainPage(driver)
         main_page.click_constructor()
-        assert "stellarburgers" in driver.current_url
+        assert BASE_URL == main_page.get_current_url()
 
     @allure.title("Клик на ингредиент — открывается модальное окно с деталями")
     def test_ingredient_modal_open(self, driver):
